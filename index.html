@@ -3,652 +3,713 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Group Idea Board Pro</title>
-    <!-- Lucide Icons CDN -->
+    <title>Group Idea Board | Professional</title>
+    <!-- Lucide Icons -->
     <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Inter Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* CSS Variables */
         :root {
-            --primary: #059669; /* Emerald 600 */
-            --secondary: #0d9488; /* Teal 600 */
-            --accent: #0891b2; /* Cyan 600 */
-            --header-gradient: linear-gradient(135deg, #10b981, #14b8a6, #06b6d4);
-            --bg-gradient: linear-gradient(135deg, #f0fdf4, #f0fdfa, #ecfeff);
-            --footer-bg: linear-gradient(to bottom right, #064e3b, #134e4a);
-            --text-main: #064e3b;
-            --text-muted: #4b5563;
-            --radius-xl: 1rem;
-            --radius-2xl: 1.5rem;
-            --radius-3xl: 2rem;
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
-            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+            /* Professional Palette */
+            --primary: #4F46E5;       /* Indigo 600 */
+            --primary-hover: #4338ca; /* Indigo 700 */
+            --secondary: #7C3AED;     /* Violet 600 */
+            --accent: #EC4899;        /* Pink 500 */
+            
+            --bg-body: #F9FAFB;       /* Gray 50 */
+            --bg-surface: #FFFFFF;
+            
+            --text-main: #111827;     /* Gray 900 */
+            --text-secondary: #4B5563;/* Gray 600 */
+            --text-muted: #9CA3AF;    /* Gray 400 */
+            
+            --border: #E5E7EB;        /* Gray 200 */
+            --border-hover: #D1D5DB;  /* Gray 300 */
+            
+            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            
+            --radius-md: 8px;
+            --radius-lg: 12px;
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            font-family: 'Inter', sans-serif;
+            -webkit-font-smoothing: antialiased;
         }
 
         body {
-            font-family: 'Inter', system-ui, -apple-system, sans-serif;
-            background: var(--bg-gradient);
+            background-color: var(--bg-body);
             color: var(--text-main);
             min-height: 100vh;
-            overflow-x: hidden;
             display: flex;
             flex-direction: column;
+            line-height: 1.5;
         }
 
-        /* --- Background Blobs --- */
-        .blob-container {
-            position: fixed;
-            top: 0;
-            left: 0;
+        /* Layout */
+        .container {
             width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .blob {
-            position: absolute;
-            width: 400px;
-            height: 400px;
-            border-radius: 50%;
-            filter: blur(80px);
-            opacity: 0.3;
-            animation: pulse 10s infinite alternate;
-        }
-
-        .blob-1 { background: #34d399; top: -100px; left: -100px; animation-delay: 0s; }
-        .blob-2 { background: #2dd4bf; top: 20%; right: -150px; animation-delay: 2s; }
-        .blob-3 { background: #22d3ee; bottom: -100px; left: 30%; animation-delay: 4s; }
-
-        @keyframes pulse {
-            0% { transform: scale(1) translate(0, 0); }
-            100% { transform: scale(1.3) translate(50px, 100px); }
-        }
-
-        /* --- Layout Container --- */
-        .app-shell {
-            width: 100%;
-            max-width: 1024px; /* 5xl equivalent */
-            margin: 40px auto;
-            padding: 0 24px;
-            flex-grow: 1;
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 24px;
             display: flex;
             flex-direction: column;
             gap: 32px;
+            flex: 1;
         }
 
-        /* --- Header Section --- */
+        /* --- Header --- */
         header {
-            background: var(--header-gradient);
-            padding: 48px;
-            border-radius: var(--radius-3xl);
+            background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+            padding: 40px;
+            border-radius: var(--radius-lg);
             color: white;
-            text-align: center;
-            box-shadow: var(--shadow-xl);
             position: relative;
-            backdrop-filter: blur(8px);
+            box-shadow: var(--shadow-lg);
+            overflow: hidden;
+            text-align: center;
         }
 
-        .header-content h1 {
-            font-size: 3rem; /* 4xl */
-            font-weight: 800;
+        header::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: radial-gradient(circle at top right, rgba(255,255,255,0.1) 0%, transparent 60%);
+            pointer-events: none;
+        }
+
+        .header-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(4px);
+            padding: 6px 12px;
+            border-radius: 99px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        header h1 {
+            font-size: 2.25rem;
+            font-weight: 700;
+            letter-spacing: -0.025em;
+            margin-bottom: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 16px;
-            margin-bottom: 8px;
+            gap: 12px;
         }
 
-        .header-tagline {
-            font-size: 1.25rem;
-            opacity: 0.9;
-            font-weight: 500;
+        header p {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            font-weight: 400;
         }
 
-        .member-badge {
-            position: absolute;
-            top: 24px;
-            right: 24px;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 8px 16px;
-            border-radius: 999px;
-            font-size: 0.875rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            border: 1px solid rgba(255, 255, 255, 0.3);
-        }
-
-        /* --- Stats Section --- */
+        /* --- Stats Grid --- */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(3, 1fr);
             gap: 24px;
         }
 
         .stat-card {
-            background: white;
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
             padding: 24px;
-            border-radius: var(--radius-2xl);
-            box-shadow: var(--shadow-lg);
+            box-shadow: var(--shadow-sm);
             display: flex;
-            align-items: center;
-            gap: 20px;
-            border-left: 6px solid var(--primary);
+            flex-direction: column;
+            gap: 12px;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .stat-card:nth-child(2) { border-left-color: var(--secondary); }
-        .stat-card:nth-child(3) { border-left-color: var(--accent); }
+        .stat-card:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+        }
 
-        .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+        .stat-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            color: var(--text-secondary);
+            font-size: 0.875rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
 
-        .icon-circle {
-            width: 56px;
-            height: 56px;
-            border-radius: 50%;
+        .icon-box {
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
 
-        .stat-info h3 { font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
-        .stat-info p { font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
-
-        /* --- Input Section --- */
-        .input-section {
-            background: white;
-            padding: 40px;
-            border-radius: var(--radius-2xl);
-            box-shadow: var(--shadow-lg);
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--text-main);
+            line-height: 1;
         }
 
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            margin-bottom: 24px;
+        /* --- Forms & Inputs --- */
+        .card {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-lg);
+            padding: 32px;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .section-header {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            margin-bottom: 24px;
+            color: var(--text-main);
+            font-size: 1.25rem;
+            font-weight: 600;
         }
 
-        .input-controls {
-            display: flex;
+        .input-group {
+            display: grid;
+            grid-template-columns: 200px 1fr auto;
             gap: 16px;
-            flex-wrap: wrap;
+            align-items: start;
         }
 
-        .select-wrapper { flex: 0 0 200px; position: relative; }
-        .input-wrapper { flex: 1; position: relative; min-width: 300px; }
+        /* Secondary Form (Add Member) */
+        .secondary-form {
+            background: transparent;
+            border: 1px dashed var(--border);
+            padding: 20px;
+            margin-bottom: 24px;
+            border-radius: var(--radius-md);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+        }
+        
+        .secondary-form h3 {
+            font-size: 0.95rem;
+            font-weight: 600;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            min-width: 140px;
+        }
 
-        select, input[type="text"] {
+        .secondary-input-group {
+            display: flex;
+            gap: 12px;
+            flex: 1;
+        }
+
+        /* Input Styling */
+        input[type="text"], select {
             width: 100%;
-            height: 56px;
-            padding: 0 16px;
-            border: 2px solid #e5e7eb;
-            border-radius: var(--radius-xl);
-            font-size: 1rem;
-            outline: none;
+            padding: 10px 16px;
+            font-size: 0.95rem;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            background-color: var(--bg-surface);
+            color: var(--text-main);
+            transition: all 0.2s ease;
+            height: 44px;
         }
 
-        select:focus, input[type="text"]:focus {
+        input[type="text"]:focus, select:focus {
+            outline: none;
             border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+        }
+
+        input::placeholder {
+            color: var(--text-muted);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 0 20px;
+            height: 44px;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: var(--radius-md);
+            border: none;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-1px);
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        .btn-secondary {
+            background-color: white;
+            border: 1px solid var(--border);
+            color: var(--text-secondary);
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-muted);
+            background-color: #F9FAFB;
+        }
+
+        /* Wrapper for clear button inside input */
+        .input-wrapper {
+            position: relative;
+            width: 100%;
         }
 
         .clear-btn {
             position: absolute;
-            right: 16px;
+            right: 12px;
             top: 50%;
             transform: translateY(-50%);
-            background: #f3f4f6;
+            background: transparent;
             border: none;
-            width: 24px;
-            height: 24px;
-            border-radius: 50%;
+            color: var(--text-muted);
             cursor: pointer;
             display: none;
-            align-items: center;
-            justify-content: center;
+            padding: 4px;
+            border-radius: 50%;
         }
-
-        #add-btn {
-            height: 56px;
-            padding: 0 32px;
-            background: var(--header-gradient);
-            color: white;
-            border: none;
-            border-radius: var(--radius-xl);
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
+        
+        .clear-btn:hover {
+            background-color: #F3F4F6;
+            color: var(--text-secondary);
         }
-
-        #add-btn:hover { transform: scale(1.05); }
-        #add-btn:active { transform: scale(0.95); }
 
         /* --- Ideas List --- */
         .list-header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            margin-bottom: 16px;
+            align-items: flex-end;
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid var(--border);
         }
 
-        .count-badge {
-            background: var(--primary);
-            color: white;
-            padding: 4px 12px;
-            border-radius: 999px;
-            font-size: 0.875rem;
-            font-weight: 700;
-        }
-
-        .ideas-grid { display: flex; flex-direction: column; gap: 16px; }
-
-        .idea-card {
-            background: linear-gradient(to right, #f9fafb, #ffffff);
-            padding: 24px;
-            border-radius: var(--radius-xl);
-            border: 1px solid #e5e7eb;
+        .list-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--text-main);
             display: flex;
             align-items: center;
-            gap: 20px;
-            position: relative;
+            gap: 8px;
         }
 
-        .idea-card:hover {
+        .idea-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .idea-item {
+            background: var(--bg-surface);
+            border: 1px solid var(--border);
+            border-radius: var(--radius-md);
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            transition: all 0.2s ease;
+        }
+
+        .idea-item:hover {
             border-color: var(--primary);
-            box-shadow: var(--shadow-lg);
-            transform: translateX(8px);
+            box-shadow: var(--shadow-md);
         }
 
-        .number-badge {
-            width: 40px;
-            height: 40px;
-            background: #f3f4f6;
+        .idea-number {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            background: #F3F4F6;
+            width: 28px;
+            height: 28px;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 800;
-            color: var(--text-muted);
             flex-shrink: 0;
         }
 
-        .idea-content { flex: 1; }
-        .idea-text { font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
-        .author-tag { color: var(--secondary); font-weight: 700; background: #f3e8ff; padding: 2px 10px; border-radius: 6px; font-size: 0.875rem; }
+        .idea-content {
+            flex: 1;
+        }
 
-        .delete-btn {
-            opacity: 0;
-            background: #fee2e2;
-            color: #ef4444;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 12px;
-            cursor: pointer;
+        .idea-text {
+            font-size: 1.05rem;
+            font-weight: 500;
+            color: var(--text-main);
+            margin-bottom: 4px;
+        }
+
+        .idea-meta {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 6px;
         }
 
-        .idea-card:hover .delete-btn { opacity: 1; }
-        .delete-btn:hover { background: #ef4444; color: white; transform: scale(1.1); }
-
-        /* --- Empty State --- */
-        .empty-state {
-            text-align: center;
-            padding: 80px;
-            background: white;
-            border-radius: var(--radius-2xl);
-            border: 3px dashed #e5e7eb;
+        .user-tag {
+            color: var(--primary);
+            font-weight: 600;
         }
 
-        .empty-state i { color: #d1d5db; margin-bottom: 20px; }
+        .delete-btn {
+            color: var(--text-muted);
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            padding: 8px;
+            border-radius: var(--radius-md);
+            opacity: 0;
+            transition: all 0.2s;
+        }
+
+        .idea-item:hover .delete-btn {
+            opacity: 1;
+        }
+
+        .delete-btn:hover {
+            background-color: #FEF2F2;
+            color: #EF4444;
+        }
 
         /* --- Footer --- */
         footer {
-            background: var(--footer-bg);
-            color: white;
-            padding: 64px 24px;
-            margin-top: 80px;
+            text-align: center;
+            padding: 40px 0;
+            color: var(--text-muted);
+            font-size: 0.875rem;
+            border-top: 1px solid var(--border);
+            margin-top: auto;
+            background: white;
         }
 
-        .footer-content {
-            max-width: 1024px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 32px;
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 60px 20px;
+            color: var(--text-muted);
+            background: #F9FAFB;
+            border-radius: var(--radius-lg);
+            border: 1px dashed var(--border);
         }
 
-        .footer-brand { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; }
-        .footer-links { display: flex; gap: 24px; }
-        .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; }
-        .footer-links a:hover { color: white; }
-
-        /* Mobile Adjustments */
+        /* Mobile Responsiveness */
         @media (max-width: 768px) {
-            .header-content h1 { font-size: 2rem; }
-            .input-controls { flex-direction: column; }
-            .select-wrapper, .input-wrapper { flex: none; width: 100%; }
-            .footer-content { flex-direction: column; text-align: center; }
+            .stats-grid {
+                grid-template-columns: 1fr;
+            }
+            .input-group, .secondary-form {
+                grid-template-columns: 1fr;
+                flex-direction: column;
+                align-items: stretch;
+            }
+            .secondary-input-group {
+                flex-direction: column;
+            }
         }
     </style>
 </head>
 <body>
 
-    <!-- Background Blobs -->
-    <div class="blob-container">
-        <div class="blob blob-1"></div>
-        <div class="blob blob-2"></div>
-        <div class="blob blob-3"></div>
-    </div>
-
-    <div class="app-shell">
-        <!-- Header Section -->
+    <div class="container">
+        <!-- Header -->
         <header>
-            <div class="member-badge">
-                <i data-lucide="users" size="18"></i>
+            <div class="header-badge">
+                <i data-lucide="users" size="14"></i>
                 <span id="active-members">0 Active Members</span>
             </div>
-            <div class="header-content">
-                <h1>
-                    <i data-lucide="lightbulb" style="color: #fbbf24; fill: #fbbf24;"></i>
-                    Group Idea Board
-                </h1>
-                <p class="header-tagline">Collaborate and share your best thoughts</p>
-            </div>
+            <h1>
+                <i data-lucide="lightbulb" size="32" style="fill: white; opacity: 0.9;"></i>
+                Group Idea Board
+            </h1>
+            <p>Collaborate, brainstorm, and share your best thoughts.</p>
         </header>
 
-        <!-- Stats Dashboard -->
+        <!-- Statistics -->
         <div class="stats-grid">
+            <!-- Total Ideas -->
             <div class="stat-card">
-                <div class="icon-circle" style="background: #eef2ff; color: #4f46e5;">
-                    <i data-lucide="lightbulb"></i>
+                <div class="stat-header">
+                    <div class="icon-box" style="background: #EEF2FF; color: var(--primary);">
+                        <i data-lucide="zap" size="16"></i>
+                    </div>
+                    <span>Total Ideas</span>
                 </div>
-                <div class="stat-info">
-                    <h3>Total Ideas</h3>
-                    <p id="stat-total">0</p>
-                </div>
+                <div class="stat-value" id="stat-total">0</div>
             </div>
+
+            <!-- Contributors -->
             <div class="stat-card">
-                <div class="icon-circle" style="background: #f5f3ff; color: #9333ea;">
-                    <i data-lucide="users"></i>
+                <div class="stat-header">
+                    <div class="icon-box" style="background: #F3E8FF; color: var(--secondary);">
+                        <i data-lucide="users" size="16"></i>
+                    </div>
+                    <span>Contributors</span>
                 </div>
-                <div class="stat-info">
-                    <h3>Contributors</h3>
-                    <p id="stat-users">0</p>
-                </div>
+                <div class="stat-value" id="stat-users">0</div>
             </div>
+
+            <!-- Personal Count -->
             <div class="stat-card">
-                <div class="icon-circle" style="background: #fdf2f8; color: #db2777;">
-                    <i data-lucide="sparkles"></i>
+                <div class="stat-header">
+                    <div class="icon-box" style="background: #FDF2F8; color: var(--accent);">
+                        <i data-lucide="star" size="16"></i>
+                    </div>
+                    <span>Your Ideas</span>
                 </div>
-                <div class="stat-info">
-                    <h3>Your Ideas</h3>
-                    <p id="stat-personal">0</p>
-                </div>
+                <div class="stat-value" id="stat-personal">0</div>
             </div>
         </div>
 
-        <!-- Member Management Section -->
-        <section class="input-section" style="padding: 24px 40px;">
-            <h2 class="section-title" style="font-size: 1.25rem; margin-bottom: 16px;">
-                <i data-lucide="user-plus" style="color: var(--secondary);"></i>
-                Add New Member
-            </h2>
-            <div class="input-controls" style="gap: 12px;">
-                <div class="input-wrapper" style="flex: 1;">
-                    <input type="text" id="new-user-input" placeholder="Enter new member name..." style="height: 48px;">
-                </div>
-                <button id="add-user-btn" style="height: 48px; padding: 0 24px; background: var(--secondary); color: white; border: none; border-radius: var(--radius-xl); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
-                    <i data-lucide="plus" size="18"></i>
+        <main>
+            <!-- Secondary Action: Add Member -->
+            <div class="secondary-form">
+                <h3>
+                    <i data-lucide="user-plus" size="18"></i>
                     Add Member
-                </button>
-            </div>
-        </section>
-
-        <!-- Input Section -->
-        <section class="input-section">
-            <h2 class="section-title">
-                <i data-lucide="plus-circle" style="color: var(--primary);"></i>
-                Add Your Idea
-            </h2>
-            <div class="input-controls">
-                <div class="select-wrapper">
-                    <select id="user-select">
-                        <option value="" disabled selected>👤 Select User</option>
-                        <!-- Users will be injected here -->
-                    </select>
-                </div>
-                <div class="input-wrapper">
-                    <input type="text" id="idea-input" placeholder="Enter your brilliant idea here...">
-                    <button class="clear-btn" id="clear-input">
-                        <i data-lucide="x" size="14"></i>
+                </h3>
+                <div class="secondary-input-group">
+                    <input type="text" id="new-user-input" placeholder="Enter name...">
+                    <button id="add-user-btn" class="btn btn-secondary" style="width: auto;">
+                        Add
                     </button>
                 </div>
-                <button id="add-btn">
-                    <i data-lucide="plus"></i>
-                    Add Idea
-                </button>
             </div>
-        </section>
 
-        <!-- Ideas List Section -->
-        <section>
-            <div class="list-header">
-                <h2 class="section-title">
-                    <i data-lucide="lightbulb" style="color: var(--secondary);"></i>
-                    Ideas Collection
+            <!-- Primary Action: Add Idea -->
+            <div class="card">
+                <h2 class="section-header">
+                    <i data-lucide="plus-circle" class="text-primary"></i>
+                    Add Your Idea
                 </h2>
-                <span class="count-badge" id="count-badge">0 Ideas</span>
+                <div class="input-group">
+                    <div class="select-wrapper">
+                        <select id="user-select">
+                            <option value="" disabled selected>Select User</option>
+                            <!-- Users injected via JS -->
+                        </select>
+                    </div>
+                    
+                    <div class="input-wrapper">
+                        <input type="text" id="idea-input" placeholder="What's your brilliant idea?">
+                        <button class="clear-btn" id="clear-input" title="Clear text">
+                            <i data-lucide="x" size="14"></i>
+                        </button>
+                    </div>
+
+                    <button id="add-btn" class="btn btn-primary">
+                        Add Idea
+                    </button>
+                </div>
             </div>
-            
-            <div id="ideas-container" class="ideas-grid">
-                <!-- Ideas will be injected here -->
+
+            <!-- Ideas List -->
+            <div style="margin-top: 32px;">
+                <div class="list-header">
+                    <div class="list-title">
+                        <i data-lucide="layers" size="20" style="color: var(--text-muted);"></i>
+                        Collected Ideas
+                    </div>
+                    <span id="count-badge" style="font-size: 0.85rem; color: var(--text-muted); font-weight: 500;">
+                        0 items
+                    </span>
+                </div>
+
+                <div id="ideas-container" class="idea-grid">
+                    <!-- Ideas injected via JS -->
+                </div>
             </div>
-        </section>
+        </main>
     </div>
 
-    <!-- Footer Section -->
     <footer>
-        <div class="footer-content">
-            <div class="footer-brand">
-                <i data-lucide="lightbulb" size="24" style="color: #fbbf24;"></i>
-                Group Idea Board
-            </div>
-            <div style="color: rgba(255,255,255,0.5); font-size: 0.875rem;">
-                &copy; 2026 Group Idea Board. Empowering collaboration and creativity.
-            </div>
-            <div class="footer-links">
-                <a href="#">About</a>
-                <a href="#">Help</a>
-                <a href="#">Privacy</a>
-                <a href="#">Terms</a>
-            </div>
-        </div>
+        <p>&copy; 2026 Group Idea Board. Professional Edition.</p>
     </footer>
 
     <script>
-        // DOM Elements
-        const userSelect = document.getElementById('user-select');
-        const ideaInput = document.getElementById('idea-input');
-        const addBtn = document.getElementById('add-btn');
-        const clearBtn = document.getElementById('clear-input');
-        const ideasContainer = document.getElementById('ideas-container');
-        
-        // New User Elements
-        const newUserInput = document.getElementById('new-user-input');
-        const addUserBtn = document.getElementById('add-user-btn');
-
-        // Stats Elements
-        const statTotal = document.getElementById('stat-total');
-        const statUsers = document.getElementById('stat-users');
-        const statPersonal = document.getElementById('stat-personal');
-        const countBadge = document.getElementById('count-badge');
-        const memberCountBadge = document.getElementById('active-members');
-
-        // Initial Data
+        // --- State Management ---
         let users = ["Nimal", "Sara", "Alex"];
         let ideas = [
-            { id: 1, text: "Build a study planner", user: "Nimal" },
-            { id: 2, text: "Start a podcast", user: "Sara" },
-            { id: 3, text: "Organize a coding workshop", user: "Alex" }
+            { id: 1, text: "Build a study planner app", user: "Nimal" },
+            { id: 2, text: "Start a tech podcast series", user: "Sara" },
+            { id: 3, text: "Organize a local coding workshop", user: "Alex" }
         ];
 
-        // --- Functions ---
+        // --- DOM Elements ---
+        const els = {
+            userSelect: document.getElementById('user-select'),
+            ideaInput: document.getElementById('idea-input'),
+            addBtn: document.getElementById('add-btn'),
+            clearBtn: document.getElementById('clear-input'),
+            ideasContainer: document.getElementById('ideas-container'),
+            newUserInput: document.getElementById('new-user-input'),
+            addUserBtn: document.getElementById('add-user-btn'),
+            stats: {
+                total: document.getElementById('stat-total'),
+                users: document.getElementById('stat-users'),
+                personal: document.getElementById('stat-personal'),
+                activeBadge: document.getElementById('active-members'),
+                countBadge: document.getElementById('count-badge')
+            }
+        };
+
+        // --- Core Functions ---
 
         function renderUsers() {
-            const currentSelected = userSelect.value;
-            userSelect.innerHTML = '<option value="" disabled selected>👤 Select User</option>';
+            const current = els.userSelect.value;
+            els.userSelect.innerHTML = '<option value="" disabled selected>Select User</option>';
             users.forEach(user => {
-                const option = document.createElement('option');
-                option.value = user;
-                option.textContent = user;
-                userSelect.appendChild(option);
+                const opt = document.createElement('option');
+                opt.value = user;
+                opt.textContent = user;
+                els.userSelect.appendChild(opt);
             });
-            // Keep selection if it still exists
-            if (users.includes(currentSelected)) {
-                userSelect.value = currentSelected;
-            }
+            if (users.includes(current)) els.userSelect.value = current;
             updateStats();
         }
 
-        function handleAddUser() {
-            const name = newUserInput.value.trim();
-            if (!name) {
-                alert("Please enter a member name!");
-                return;
+        function renderIdeas() {
+            els.ideasContainer.innerHTML = '';
+            
+            if (ideas.length === 0) {
+                els.ideasContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="inbox" size="48" style="opacity: 0.5; margin-bottom: 16px;"></i>
+                        <p>No ideas yet. Be the first to contribute!</p>
+                    </div>
+                `;
+            } else {
+                ideas.forEach((item, index) => {
+                    const div = document.createElement('div');
+                    div.className = 'idea-item';
+                    div.innerHTML = `
+                        <div class="idea-number">${index + 1}</div>
+                        <div class="idea-content">
+                            <div class="idea-text">${item.text}</div>
+                            <div class="idea-meta">
+                                Suggested by <span class="user-tag">${item.user}</span>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteIdea(${item.id})" title="Delete Idea">
+                            <i data-lucide="trash-2" size="18"></i>
+                        </button>
+                    `;
+                    els.ideasContainer.appendChild(div);
+                });
             }
-            if (users.includes(name)) {
-                alert("This member already exists!");
-                return;
-            }
-
-            users.push(name);
-            renderUsers();
-            newUserInput.value = "";
-            newUserInput.focus();
+            lucide.createIcons();
+            updateStats();
         }
 
         function updateStats() {
             const total = ideas.length;
             const uniqueUsers = new Set(ideas.map(i => i.user)).size;
-            
-            // "Personal" count for the currently selected user
-            const currentUser = userSelect.value;
+            const currentUser = els.userSelect.value;
             const personal = currentUser ? ideas.filter(i => i.user === currentUser).length : 0;
 
-            statTotal.textContent = total;
-            statUsers.textContent = uniqueUsers;
-            statPersonal.textContent = personal;
-            countBadge.textContent = `${total} Ideas`;
-            memberCountBadge.textContent = `${uniqueUsers} Active Members`;
-        }
-
-        function renderIdeas() {
-            ideasContainer.innerHTML = '';
-
-            if (ideas.length === 0) {
-                ideasContainer.innerHTML = `
-                    <div class="empty-state">
-                        <i data-lucide="cloud-off" size="64"></i>
-                        <h3>No ideas yet</h3>
-                        <p style="color: var(--text-muted); margin-top: 8px;">Be the first to share your brilliant idea!</p>
-                    </div>
-                `;
-            } else {
-                ideas.forEach((item, index) => {
-                    const card = document.createElement('div');
-                    card.className = 'idea-card';
-                    card.innerHTML = `
-                        <div class="number-badge">${index + 1}</div>
-                        <div class="idea-content">
-                            <div class="idea-text">${item.text}</div>
-                            <div class="idea-author">
-                                <span class="author-tag">Suggested by ${item.user}</span>
-                            </div>
-                        </div>
-                        <button class="delete-btn" onclick="deleteIdea(${item.id})">
-                            <i data-lucide="trash-2" size="20"></i>
-                        </button>
-                    `;
-                    ideasContainer.appendChild(card);
-                });
-            }
-            // Re-initialize icons for newly created elements
-            lucide.createIcons();
-            updateStats();
-        }
-
-        function deleteIdea(id) {
-            ideas = ideas.filter(i => i.id !== id);
-            renderIdeas();
+            els.stats.total.textContent = total;
+            els.stats.users.textContent = uniqueUsers;
+            els.stats.personal.textContent = personal; // Live update based on dropdown
+            els.stats.activeBadge.textContent = `${uniqueUsers} Active Members`;
+            els.stats.countBadge.textContent = `${total} items`;
         }
 
         function handleAddIdea() {
-            const user = userSelect.value;
-            const text = ideaInput.value.trim();
+            const user = els.userSelect.value;
+            const text = els.ideaInput.value.trim();
 
-            if (!user) { alert("Please select a user first!"); return; }
-            if (!text) { alert("Please enter your brilliant idea!"); return; }
+            if (!user) return alert("Please select a user first.");
+            if (!text) return alert("Please enter an idea.");
 
-            const newIdea = {
-                id: Date.now(),
-                text: text,
-                user: user
-            };
-
-            ideas.push(newIdea);
+            ideas.push({ id: Date.now(), text, user });
+            els.ideaInput.value = '';
+            els.clearBtn.style.display = 'none';
             renderIdeas();
+        }
+
+        function handleAddUser() {
+            const name = els.newUserInput.value.trim();
+            if (!name) return;
+            if (users.includes(name)) return alert("User already exists.");
             
-            // Clear and Reset UI
-            ideaInput.value = "";
-            clearBtn.style.display = 'none';
-            ideaInput.focus();
+            users.push(name);
+            els.newUserInput.value = '';
+            renderUsers();
+        }
+
+        function deleteIdea(id) {
+            if(confirm('Delete this idea?')) {
+                ideas = ideas.filter(i => i.id !== id);
+                renderIdeas();
+            }
         }
 
         // --- Event Listeners ---
+        els.addBtn.addEventListener('click', handleAddIdea);
+        els.ideaInput.addEventListener('keypress', e => e.key === 'Enter' && handleAddIdea());
+        
+        els.addUserBtn.addEventListener('click', handleAddUser);
+        els.newUserInput.addEventListener('keypress', e => e.key === 'Enter' && handleAddUser());
 
-        addBtn.addEventListener('click', handleAddIdea);
-
-        ideaInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleAddIdea();
+        els.userSelect.addEventListener('change', updateStats);
+        
+        els.ideaInput.addEventListener('input', () => {
+            els.clearBtn.style.display = els.ideaInput.value ? 'block' : 'none';
+        });
+        
+        els.clearBtn.addEventListener('click', () => {
+            els.ideaInput.value = '';
+            els.clearBtn.style.display = 'none';
+            els.ideaInput.focus();
         });
 
-        ideaInput.addEventListener('input', () => {
-            clearBtn.style.display = ideaInput.value.length > 0 ? 'flex' : 'none';
-        });
-
-        clearBtn.addEventListener('click', () => {
-            ideaInput.value = "";
-            clearBtn.style.display = 'none';
-            ideaInput.focus();
-        });
-
-        userSelect.addEventListener('change', updateStats);
-        addUserBtn.addEventListener('click', handleAddUser);
-        newUserInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleAddUser();
-        });
-
-        // --- Initialization ---
-        lucide.createIcons();
+        // --- Init ---
+        // Expose deleteIdea to window scope for onclick attribute
+        window.deleteIdea = deleteIdea;
+        
         renderUsers();
         renderIdeas();
+        lucide.createIcons();
     </script>
 </body>
 </html>
