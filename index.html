@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Group Idea Board Pro</title>
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <style>
+        /* CSS Variables */
+        :root {
+            --primary: #059669; /* Emerald 600 */
+            --secondary: #0d9488; /* Teal 600 */
+            --accent: #0891b2; /* Cyan 600 */
+            --header-gradient: linear-gradient(135deg, #10b981, #14b8a6, #06b6d4);
+            --bg-gradient: linear-gradient(135deg, #f0fdf4, #f0fdfa, #ecfeff);
+            --footer-bg: linear-gradient(to bottom right, #064e3b, #134e4a);
+            --text-main: #064e3b;
+            --text-muted: #4b5563;
+            --radius-xl: 1rem;
+            --radius-2xl: 1.5rem;
+            --radius-3xl: 2rem;
+            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            --shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            background: var(--bg-gradient);
+            color: var(--text-main);
+            min-height: 100vh;
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* --- Background Blobs --- */
+        .blob-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .blob {
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            border-radius: 50%;
+            filter: blur(80px);
+            opacity: 0.3;
+            animation: pulse 10s infinite alternate;
+        }
+
+        .blob-1 { background: #34d399; top: -100px; left: -100px; animation-delay: 0s; }
+        .blob-2 { background: #2dd4bf; top: 20%; right: -150px; animation-delay: 2s; }
+        .blob-3 { background: #22d3ee; bottom: -100px; left: 30%; animation-delay: 4s; }
+
+        @keyframes pulse {
+            0% { transform: scale(1) translate(0, 0); }
+            100% { transform: scale(1.3) translate(50px, 100px); }
+        }
+
+        /* --- Layout Container --- */
+        .app-shell {
+            width: 100%;
+            max-width: 1024px; /* 5xl equivalent */
+            margin: 40px auto;
+            padding: 0 24px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+        }
+
+        /* --- Header Section --- */
+        header {
+            background: var(--header-gradient);
+            padding: 48px;
+            border-radius: var(--radius-3xl);
+            color: white;
+            text-align: center;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            backdrop-filter: blur(8px);
+        }
+
+        .header-content h1 {
+            font-size: 3rem; /* 4xl */
+            font-weight: 800;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-bottom: 8px;
+        }
+
+        .header-tagline {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            font-weight: 500;
+        }
+
+        .member-badge {
+            position: absolute;
+            top: 24px;
+            right: 24px;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 8px 16px;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* --- Stats Section --- */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 24px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 24px;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            border-left: 6px solid var(--primary);
+        }
+
+        .stat-card:nth-child(2) { border-left-color: var(--secondary); }
+        .stat-card:nth-child(3) { border-left-color: var(--accent); }
+
+        .stat-card:hover { transform: translateY(-5px); box-shadow: var(--shadow-xl); }
+
+        .icon-circle {
+            width: 56px;
+            height: 56px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .stat-info h3 { font-size: 0.875rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+        .stat-info p { font-size: 1.75rem; font-weight: 800; color: var(--text-main); }
+
+        /* --- Input Section --- */
+        .input-section {
+            background: white;
+            padding: 40px;
+            border-radius: var(--radius-2xl);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 24px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .input-controls {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .select-wrapper { flex: 0 0 200px; position: relative; }
+        .input-wrapper { flex: 1; position: relative; min-width: 300px; }
+
+        select, input[type="text"] {
+            width: 100%;
+            height: 56px;
+            padding: 0 16px;
+            border: 2px solid #e5e7eb;
+            border-radius: var(--radius-xl);
+            font-size: 1rem;
+            outline: none;
+        }
+
+        select:focus, input[type="text"]:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(79, 70, 229, 0.1);
+        }
+
+        .clear-btn {
+            position: absolute;
+            right: 16px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: #f3f4f6;
+            border: none;
+            width: 24px;
+            height: 24px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #add-btn {
+            height: 56px;
+            padding: 0 32px;
+            background: var(--header-gradient);
+            color: white;
+            border: none;
+            border-radius: var(--radius-xl);
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        #add-btn:hover { transform: scale(1.05); }
+        #add-btn:active { transform: scale(0.95); }
+
+        /* --- Ideas List --- */
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+
+        .count-badge {
+            background: var(--primary);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 999px;
+            font-size: 0.875rem;
+            font-weight: 700;
+        }
+
+        .ideas-grid { display: flex; flex-direction: column; gap: 16px; }
+
+        .idea-card {
+            background: linear-gradient(to right, #f9fafb, #ffffff);
+            padding: 24px;
+            border-radius: var(--radius-xl);
+            border: 1px solid #e5e7eb;
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            position: relative;
+        }
+
+        .idea-card:hover {
+            border-color: var(--primary);
+            box-shadow: var(--shadow-lg);
+            transform: translateX(8px);
+        }
+
+        .number-badge {
+            width: 40px;
+            height: 40px;
+            background: #f3f4f6;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: var(--text-muted);
+            flex-shrink: 0;
+        }
+
+        .idea-content { flex: 1; }
+        .idea-text { font-size: 1.25rem; font-weight: 600; margin-bottom: 4px; }
+        .author-tag { color: var(--secondary); font-weight: 700; background: #f3e8ff; padding: 2px 10px; border-radius: 6px; font-size: 0.875rem; }
+
+        .delete-btn {
+            opacity: 0;
+            background: #fee2e2;
+            color: #ef4444;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 12px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .idea-card:hover .delete-btn { opacity: 1; }
+        .delete-btn:hover { background: #ef4444; color: white; transform: scale(1.1); }
+
+        /* --- Empty State --- */
+        .empty-state {
+            text-align: center;
+            padding: 80px;
+            background: white;
+            border-radius: var(--radius-2xl);
+            border: 3px dashed #e5e7eb;
+        }
+
+        .empty-state i { color: #d1d5db; margin-bottom: 20px; }
+
+        /* --- Footer --- */
+        footer {
+            background: var(--footer-bg);
+            color: white;
+            padding: 64px 24px;
+            margin-top: 80px;
+        }
+
+        .footer-content {
+            max-width: 1024px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 32px;
+        }
+
+        .footer-brand { display: flex; align-items: center; gap: 12px; font-size: 1.25rem; font-weight: 700; }
+        .footer-links { display: flex; gap: 24px; }
+        .footer-links a { color: rgba(255,255,255,0.7); text-decoration: none; font-weight: 500; }
+        .footer-links a:hover { color: white; }
+
+        /* Mobile Adjustments */
+        @media (max-width: 768px) {
+            .header-content h1 { font-size: 2rem; }
+            .input-controls { flex-direction: column; }
+            .select-wrapper, .input-wrapper { flex: none; width: 100%; }
+            .footer-content { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Blobs -->
+    <div class="blob-container">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+    </div>
+
+    <div class="app-shell">
+        <!-- Header Section -->
+        <header>
+            <div class="member-badge">
+                <i data-lucide="users" size="18"></i>
+                <span id="active-members">0 Active Members</span>
+            </div>
+            <div class="header-content">
+                <h1>
+                    <i data-lucide="lightbulb" style="color: #fbbf24; fill: #fbbf24;"></i>
+                    Group Idea Board
+                </h1>
+                <p class="header-tagline">Collaborate and share your best thoughts</p>
+            </div>
+        </header>
+
+        <!-- Stats Dashboard -->
+        <div class="stats-grid">
+            <div class="stat-card">
+                <div class="icon-circle" style="background: #eef2ff; color: #4f46e5;">
+                    <i data-lucide="lightbulb"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Total Ideas</h3>
+                    <p id="stat-total">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-circle" style="background: #f5f3ff; color: #9333ea;">
+                    <i data-lucide="users"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Contributors</h3>
+                    <p id="stat-users">0</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="icon-circle" style="background: #fdf2f8; color: #db2777;">
+                    <i data-lucide="sparkles"></i>
+                </div>
+                <div class="stat-info">
+                    <h3>Your Ideas</h3>
+                    <p id="stat-personal">0</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Member Management Section -->
+        <section class="input-section" style="padding: 24px 40px;">
+            <h2 class="section-title" style="font-size: 1.25rem; margin-bottom: 16px;">
+                <i data-lucide="user-plus" style="color: var(--secondary);"></i>
+                Add New Member
+            </h2>
+            <div class="input-controls" style="gap: 12px;">
+                <div class="input-wrapper" style="flex: 1;">
+                    <input type="text" id="new-user-input" placeholder="Enter new member name..." style="height: 48px;">
+                </div>
+                <button id="add-user-btn" style="height: 48px; padding: 0 24px; background: var(--secondary); color: white; border: none; border-radius: var(--radius-xl); font-weight: 700; cursor: pointer; display: flex; align-items: center; gap: 8px;">
+                    <i data-lucide="plus" size="18"></i>
+                    Add Member
+                </button>
+            </div>
+        </section>
+
+        <!-- Input Section -->
+        <section class="input-section">
+            <h2 class="section-title">
+                <i data-lucide="plus-circle" style="color: var(--primary);"></i>
+                Add Your Idea
+            </h2>
+            <div class="input-controls">
+                <div class="select-wrapper">
+                    <select id="user-select">
+                        <option value="" disabled selected>👤 Select User</option>
+                        <!-- Users will be injected here -->
+                    </select>
+                </div>
+                <div class="input-wrapper">
+                    <input type="text" id="idea-input" placeholder="Enter your brilliant idea here...">
+                    <button class="clear-btn" id="clear-input">
+                        <i data-lucide="x" size="14"></i>
+                    </button>
+                </div>
+                <button id="add-btn">
+                    <i data-lucide="plus"></i>
+                    Add Idea
+                </button>
+            </div>
+        </section>
+
+        <!-- Ideas List Section -->
+        <section>
+            <div class="list-header">
+                <h2 class="section-title">
+                    <i data-lucide="lightbulb" style="color: var(--secondary);"></i>
+                    Ideas Collection
+                </h2>
+                <span class="count-badge" id="count-badge">0 Ideas</span>
+            </div>
+            
+            <div id="ideas-container" class="ideas-grid">
+                <!-- Ideas will be injected here -->
+            </div>
+        </section>
+    </div>
+
+    <!-- Footer Section -->
+    <footer>
+        <div class="footer-content">
+            <div class="footer-brand">
+                <i data-lucide="lightbulb" size="24" style="color: #fbbf24;"></i>
+                Group Idea Board
+            </div>
+            <div style="color: rgba(255,255,255,0.5); font-size: 0.875rem;">
+                &copy; 2026 Group Idea Board. Empowering collaboration and creativity.
+            </div>
+            <div class="footer-links">
+                <a href="#">About</a>
+                <a href="#">Help</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // DOM Elements
+        const userSelect = document.getElementById('user-select');
+        const ideaInput = document.getElementById('idea-input');
+        const addBtn = document.getElementById('add-btn');
+        const clearBtn = document.getElementById('clear-input');
+        const ideasContainer = document.getElementById('ideas-container');
+        
+        // New User Elements
+        const newUserInput = document.getElementById('new-user-input');
+        const addUserBtn = document.getElementById('add-user-btn');
+
+        // Stats Elements
+        const statTotal = document.getElementById('stat-total');
+        const statUsers = document.getElementById('stat-users');
+        const statPersonal = document.getElementById('stat-personal');
+        const countBadge = document.getElementById('count-badge');
+        const memberCountBadge = document.getElementById('active-members');
+
+        // Initial Data
+        let users = ["Nimal", "Sara", "Alex"];
+        let ideas = [
+            { id: 1, text: "Build a study planner", user: "Nimal" },
+            { id: 2, text: "Start a podcast", user: "Sara" },
+            { id: 3, text: "Organize a coding workshop", user: "Alex" }
+        ];
+
+        // --- Functions ---
+
+        function renderUsers() {
+            const currentSelected = userSelect.value;
+            userSelect.innerHTML = '<option value="" disabled selected>👤 Select User</option>';
+            users.forEach(user => {
+                const option = document.createElement('option');
+                option.value = user;
+                option.textContent = user;
+                userSelect.appendChild(option);
+            });
+            // Keep selection if it still exists
+            if (users.includes(currentSelected)) {
+                userSelect.value = currentSelected;
+            }
+            updateStats();
+        }
+
+        function handleAddUser() {
+            const name = newUserInput.value.trim();
+            if (!name) {
+                alert("Please enter a member name!");
+                return;
+            }
+            if (users.includes(name)) {
+                alert("This member already exists!");
+                return;
+            }
+
+            users.push(name);
+            renderUsers();
+            newUserInput.value = "";
+            newUserInput.focus();
+        }
+
+        function updateStats() {
+            const total = ideas.length;
+            const uniqueUsers = new Set(ideas.map(i => i.user)).size;
+            
+            // "Personal" count for the currently selected user
+            const currentUser = userSelect.value;
+            const personal = currentUser ? ideas.filter(i => i.user === currentUser).length : 0;
+
+            statTotal.textContent = total;
+            statUsers.textContent = uniqueUsers;
+            statPersonal.textContent = personal;
+            countBadge.textContent = `${total} Ideas`;
+            memberCountBadge.textContent = `${uniqueUsers} Active Members`;
+        }
+
+        function renderIdeas() {
+            ideasContainer.innerHTML = '';
+
+            if (ideas.length === 0) {
+                ideasContainer.innerHTML = `
+                    <div class="empty-state">
+                        <i data-lucide="cloud-off" size="64"></i>
+                        <h3>No ideas yet</h3>
+                        <p style="color: var(--text-muted); margin-top: 8px;">Be the first to share your brilliant idea!</p>
+                    </div>
+                `;
+            } else {
+                ideas.forEach((item, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'idea-card';
+                    card.innerHTML = `
+                        <div class="number-badge">${index + 1}</div>
+                        <div class="idea-content">
+                            <div class="idea-text">${item.text}</div>
+                            <div class="idea-author">
+                                <span class="author-tag">Suggested by ${item.user}</span>
+                            </div>
+                        </div>
+                        <button class="delete-btn" onclick="deleteIdea(${item.id})">
+                            <i data-lucide="trash-2" size="20"></i>
+                        </button>
+                    `;
+                    ideasContainer.appendChild(card);
+                });
+            }
+            // Re-initialize icons for newly created elements
+            lucide.createIcons();
+            updateStats();
+        }
+
+        function deleteIdea(id) {
+            ideas = ideas.filter(i => i.id !== id);
+            renderIdeas();
+        }
+
+        function handleAddIdea() {
+            const user = userSelect.value;
+            const text = ideaInput.value.trim();
+
+            if (!user) { alert("Please select a user first!"); return; }
+            if (!text) { alert("Please enter your brilliant idea!"); return; }
+
+            const newIdea = {
+                id: Date.now(),
+                text: text,
+                user: user
+            };
+
+            ideas.push(newIdea);
+            renderIdeas();
+            
+            // Clear and Reset UI
+            ideaInput.value = "";
+            clearBtn.style.display = 'none';
+            ideaInput.focus();
+        }
+
+        // --- Event Listeners ---
+
+        addBtn.addEventListener('click', handleAddIdea);
+
+        ideaInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleAddIdea();
+        });
+
+        ideaInput.addEventListener('input', () => {
+            clearBtn.style.display = ideaInput.value.length > 0 ? 'flex' : 'none';
+        });
+
+        clearBtn.addEventListener('click', () => {
+            ideaInput.value = "";
+            clearBtn.style.display = 'none';
+            ideaInput.focus();
+        });
+
+        userSelect.addEventListener('change', updateStats);
+        addUserBtn.addEventListener('click', handleAddUser);
+        newUserInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') handleAddUser();
+        });
+
+        // --- Initialization ---
+        lucide.createIcons();
+        renderUsers();
+        renderIdeas();
+    </script>
+</body>
+</html>
