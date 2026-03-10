@@ -13,6 +13,12 @@
         <ul class="nav-links">
             <li><a href="#" class="nav-item active" data-section="gpa-calc">GPA Calculator</a></li>
             <li><a href="#" class="nav-item" data-section="study-timer">Study Timer</a></li>
+            <li>
+                <label class="theme-switch" for="checkbox">
+                    <input type="checkbox" id="checkbox" />
+                    <div class="slider round"></div>
+                </label>
+            </li>
         </ul>
     </nav>
 
@@ -31,11 +37,42 @@
         <!-- Main Content Area: Displays the selected tool feature -->
         <main class="main-content">
             <!-- GPA Calculator Section -->
-            <section id="gpa-calc" class="content-section">
-                <h1>GPA Calculator</h1>
-                <p>Welcome to your GPA Calculator. Enter your course data to track your progress.</p>
-                <!-- Placeholder for GPA Calculator Tool -->
-                <div class="tool-placeholder">GPA Tool Interface</div>
+            <section id="gpa-calc" class="content-section gpa-card-container">
+                <div class="glass-card fade-in">
+                    <h1>GPA Calculator</h1>
+                    <p>Track your academic progress with UCSC's branding.</p>
+                    
+                    <div id="course-list">
+                        <div class="course-row">
+                            <input type="text" placeholder="Course Name" class="course-name">
+                            <input type="number" placeholder="Credits" class="course-credits" min="0" step="0.5">
+                            <select class="course-grade">
+                                <option value="" disabled selected>Grade</option>
+                                <option value="4.0">A+ / A</option>
+                                <option value="3.7">A-</option>
+                                <option value="3.3">B+</option>
+                                <option value="3.0">B</option>
+                                <option value="2.7">B-</option>
+                                <option value="2.3">C+</option>
+                                <option value="2.0">C</option>
+                                <option value="1.7">C-</option>
+                                <option value="1.3">D+</option>
+                                <option value="1.0">D</option>
+                                <option value="0.0">F</option>
+                            </select>
+                            <button class="remove-btn">&times;</button>
+                        </div>
+                    </div>
+
+                    <div class="calculator-actions">
+                        <button id="add-course-btn" class="secondary-btn">+ Add Course</button>
+                        <button id="calculate-btn" class="primary-btn">Calculate GPA</button>
+                    </div>
+
+                    <div id="gpa-result" class="result-display hidden">
+                        <h3>Your Overall GPA: <span id="gpa-score">0.00</span></h3>
+                    </div>
+                </div>
             </section>
 
             <!-- Study Timer Section -->
