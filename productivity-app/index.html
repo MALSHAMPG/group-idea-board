@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Productivity Toolkit</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <!-- Navbar: Top navigation containing tool links -->
+    <nav class="navbar">
+        <div class="logo">🚀 Productivity Toolkit</div>
+        <ul class="nav-links">
+            <li><a href="#" class="nav-item active" data-section="gpa-calc">GPA Calculator</a></li>
+            <li><a href="#" class="nav-item" data-section="study-timer">Study Timer</a></li>
+        </ul>
+    </nav>
+
+    <!-- Main Page Layout: Contains Sidebar and Main Content Area -->
+    <div class="page-layout">
+        <!-- Sidebar: Displays Upcoming Events on the side -->
+        <aside class="sidebar">
+            <h3>Upcoming Events</h3>
+            <ul class="event-list">
+                <li><strong>Mar 15:</strong> Calculus Exam</li>
+                <li><strong>Mar 18:</strong> History Paper Due</li>
+                <li><strong>Mar 22:</strong> Science Lab Report</li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area: Displays the selected tool feature -->
+        <main class="main-content">
+            <!-- GPA Calculator Section -->
+            <section id="gpa-calc" class="content-section">
+                <h1>GPA Calculator</h1>
+                <p>Welcome to your GPA Calculator. Enter your course data to track your progress.</p>
+                <!-- Placeholder for GPA Calculator Tool -->
+                <div class="tool-placeholder">GPA Tool Interface</div>
+            </section>
+
+            <!-- Study Timer Section -->
+            <section id="study-timer" class="content-section hidden">
+                <h1>Study Timer</h1>
+                <p>Focus on your tasks with the Pomodoro technique.</p>
+                <!-- Placeholder for Study Timer Tool -->
+                <div class="tool-placeholder">Pomodoro Timer Interface</div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Script connection -->
+    <script src="script.js"></script>
+</body>
+</html>
