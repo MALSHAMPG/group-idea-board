@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Structure - Student Toolkit</title>
+    <style>
+        /* UCSC Branding Colors */
+        :root {
+            --ucsc-maroon: #800000;
+            --ucsc-gold: #FFD700;
+            --bg-light: #f4f4f4;
+            --text-dark: #333;
+            --sidebar-width: 260px;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+            background-color: var(--bg-light);
+        }
+
+        /* --- 1. NAVBAR --- */
+        .navbar {
+            background-color: var(--ucsc-maroon);
+            color: var(--ucsc-gold);
+            padding: 0 30px;
+            height: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+            z-index: 1000;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-menu {
+            list-style: none;
+            display: flex;
+            gap: 10px;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav-link {
+            color: white;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            padding: 8px 15px;
+            border-radius: 6px;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+        }
+
+        .nav-link.active {
+            background-color: var(--ucsc-gold);
+            color: var(--ucsc-maroon);
+        }
+
+        /* --- 2. APP CONTAINER --- */
+        .app-container {
+            display: flex;
+            flex: 1;
+            overflow: hidden;
+        }
+
+        /* --- 3. SIDEBAR --- */
+        .sidebar {
+            width: var(--sidebar-width);
+            background-color: #ffffff;
+            padding: 30px 20px;
+            border-right: 1px solid #ddd;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .sidebar h3 {
+            color: var(--ucsc-maroon);
+            border-bottom: 2px solid var(--ucsc-gold);
+            padding-bottom: 10px;
+            margin: 0;
+        }
+
+        .sidebar-item {
+            padding: 12px;
+            background: #f9f9f9;
+            border-radius: 8px;
+            border-left: 4px solid var(--ucsc-maroon);
+            font-size: 0.9rem;
+        }
+
+        /* --- 4. MAIN CONTENT --- */
+        .main-content {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            background-color: #ffffff;
+        }
+
+        .section-placeholder {
+            border: 2px dashed #ccc;
+            padding: 50px;
+            border-radius: 15px;
+            text-align: center;
+            color: #888;
+            display: none; /* Hidden by default */
+        }
+
+        .section-placeholder.active {
+            display: block;
+            animation: slideUp 0.4s ease-out;
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { color: var(--ucsc-maroon); margin-top: 0; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVIGATION BAR -->
+    <nav class="navbar">
+        <div class="logo">
+            <span>🎓</span> UCSC Student Toolkit
+        </div>
+        <ul class="nav-menu">
+            <li><a class="nav-link active" onclick="switchSection('gpa', this)">GPA Calculator</a></li>
+            <li><a class="nav-link" onclick="switchSection('timer', this)">Study Timer</a></li>
+        </ul>
+    </nav>
+
+    <div class="app-container">
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <h3>Upcoming Events</h3>
+            <div class="sidebar-item">
+                <strong>Mar 12</strong><br>Math Quiz - Hall 04
+            </div>
+            <div class="sidebar-item">
+                <strong>Mar 15</strong><br>Project Phase 1 Due
+            </div>
+            <div class="sidebar-item">
+                <strong>Mar 20</strong><br>Library Workshop
+            </div>
+        </aside>
+
+        <!-- CONTENT AREA -->
+        <main class="main-content">
+            
+            <!-- GPA SECTION -->
+            <div id="section-gpa" class="section-placeholder active">
+                <h1>GPA Calculator Structure</h1>
+                <p>Layout for inputs (Credits, Grades) and Calculation results.</p>
+                <div style="margin-top:20px; color:#aaa;">[ Component Slot: GPA_CALC ]</div>
+            </div>
+
+            <!-- TIMER SECTION -->
+            <div id="section-timer" class="section-placeholder">
+                <h1>Study Timer Structure</h1>
+                <p>Layout for the 25-minute Pomodoro countdown and controls.</p>
+                <div style="margin-top:20px; color:#aaa;">[ Component Slot: POMODORO_TIMER ]</div>
+            </div>
+
+        </main>
+    </div>
+
+    <!-- WORKING MENU LOGIC -->
+    <script>
+        function switchSection(id, element) {
+            // 1. Hide all section placeholders
+            document.querySelectorAll('.section-placeholder').forEach(section => {
+                section.classList.remove('active');
+            });
+
+            // 2. Remove 'active' class from all nav links
+            document.querySelectorAll('.nav-link').forEach(link => {
+                link.classList.remove('active');
+            });
+
+            // 3. Show the selected section
+            document.getElementById('section-' + id).classList.add('active');
+
+            // 4. Set the clicked link as active
+            element.classList.add('active');
+        }
+    </script>
+
+</body>
+</html>

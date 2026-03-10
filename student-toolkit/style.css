@@ -1,0 +1,269 @@
+:root {
+    --primary-color: #800000; /* UCSC Maroon */
+    --accent-color: #FFD700;  /* UCSC Gold */
+    --secondary-color: #64748b;
+    --background-color: #f8fafc;
+    --sidebar-bg: #ffffff;
+    --card-bg: #ffffff;
+    --text-color: #1e293b;
+    --border-color: #e2e8f0;
+    --white: #ffffff;
+    --shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+}
+
+.dark-mode {
+    --primary-color: #a52a2a;
+    --accent-color: #ffd700;
+    --background-color: #1a0000; /* Very Dark Maroon */
+    --sidebar-bg: #2a0000;
+    --card-bg: #2a0000;
+    --text-color: #f8fafc;
+    --border-color: #4a0000;
+    --white: #2a0000;
+    --shadow: 0 4px 15px rgba(0, 0, 0, 0.7);
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    transition: background-color 0.3s ease, color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+    overflow-x: hidden;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.fade-in {
+    animation: fadeIn 0.8s ease-out forwards;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--primary-color);
+    padding: 0.8rem 2rem;
+    box-shadow: var(--shadow);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    color: var(--accent-color);
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.university-logo {
+    height: 40px;
+    width: 40px;
+    filter: drop-shadow(0 0 2px rgba(255, 215, 0, 0.5));
+}
+
+.logo-text {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: var(--accent-color);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 1.8rem;
+    align-items: center;
+}
+
+.nav-item {
+    text-decoration: none;
+    color: #ffffff;
+    font-weight: 600;
+    opacity: 0.8;
+}
+
+.nav-item:hover, .nav-item.active {
+    color: var(--accent-color);
+    opacity: 1;
+}
+
+.btn-toggle {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    border: 1px solid var(--accent-color);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+/* App Container */
+.app-container {
+    display: flex;
+    min-height: calc(100vh - 4.5rem);
+}
+
+/* Sidebar */
+.sidebar {
+    width: 300px;
+    background-color: var(--sidebar-bg);
+    padding: 2.5rem 1.5rem;
+    border-right: 1px solid var(--border-color);
+}
+
+.sidebar h3 {
+    margin-bottom: 2rem;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    border-bottom: 3px solid var(--accent-color);
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+.event-list {
+    list-style: none;
+}
+
+.event-item {
+    background: var(--background-color);
+    margin-bottom: 1.2rem;
+    padding: 1.2rem;
+    border-radius: 12px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--border-color);
+    border-left: 6px solid var(--primary-color);
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Interactive Sidebar Items */
+.event-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.4);
+    border-color: var(--accent-color);
+    z-index: 10;
+}
+
+.event-date {
+    font-size: 0.85rem;
+    color: var(--primary-color);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+.event-name {
+    font-weight: 600;
+    margin-top: 0.4rem;
+}
+
+/* Main Content */
+.main-content {
+    flex-grow: 1;
+    padding: 4rem 3rem;
+}
+
+.content-section {
+    max-width: 850px;
+    margin: 0 auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.card {
+    background: var(--card-bg);
+    padding: 3rem;
+    border-radius: 20px;
+    box-shadow: var(--shadow);
+    border: 1px solid var(--border-color);
+}
+
+/* GPA Calculator Specifics */
+textarea#gpa-input {
+    width: 100%;
+    height: 140px;
+    margin: 2rem 0;
+    padding: 1.2rem;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    background-color: var(--background-color);
+    color: var(--text-color);
+    font-size: 1.1rem;
+    resize: none;
+    outline: none;
+}
+
+textarea#gpa-input:focus {
+    border-color: var(--primary-color);
+}
+
+.result-display {
+    margin-top: 2rem;
+    font-size: 2.2rem;
+    font-weight: 800;
+    color: var(--primary-color);
+}
+
+/* Timer Specifics */
+.timer-display {
+    font-size: 7rem;
+    font-weight: 900;
+    margin: 2rem 0;
+    color: var(--primary-color);
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Buttons */
+.btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 10px;
+    font-weight: 700;
+    cursor: pointer;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn.primary {
+    background-color: var(--primary-color);
+    color: #ffffff;
+    box-shadow: 0 4px 0 #600000;
+}
+
+.btn.primary:active {
+    transform: translateY(2px);
+    box-shadow: 0 2px 0 #600000;
+}
+
+.btn.secondary {
+    background-color: var(--secondary-color);
+    color: #ffffff;
+    margin-left: 15px;
+}
+
+@media (max-width: 1024px) {
+    .app-container { flex-direction: column; }
+    .sidebar { width: 100%; border-right: none; border-bottom: 1px solid var(--border-color); }
+}
